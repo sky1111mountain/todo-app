@@ -44,4 +44,4 @@ jobs:
 
       # 4. テストの実行！
       - name: Run Tests
-        run: go test -v ./... || true
+        run: go test -v ./...
