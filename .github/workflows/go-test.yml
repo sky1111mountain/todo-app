@@ -12,6 +12,21 @@ jobs:
     # 実行するOS（GitHubが用意してくれるLinux）
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: todolist
+        ports:
+          - 3306:3306
+        # MySQLが完全に起動するまで待つための設定
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
     steps:
       # 1. あなたのコードをチェックアウト（ダウンロード）
       - uses: actions/checkout@v4
