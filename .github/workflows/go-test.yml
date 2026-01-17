@@ -52,5 +52,8 @@ jobs:
           DBHOST: "db"
           TESTDB: "test_db"
           TESTDBHOST: "127.0.0.1"
+          USERNAME: "rainbow777"
+          USERPASS: "klehorha"
+
           GOOGLECLIENTID: "727698954425-acn415cdngffpu2rmraf687kci1nav0s.apps.googleusercontent.com"
         run: go test -v ./controllers/... ./services/... ./repository/...
