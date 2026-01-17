@@ -19,8 +19,8 @@ var AppConfig EnvConfig
 
 func LoadEnvConfig() {
 	AppConfig = EnvConfig{
-		DBUser:         os.Getenv("DB_USER"),
-		DBPass:         os.Getenv("DB_PASS"),
+		DBUser:         os.Getenv("USERNAME"),
+		DBPass:         os.Getenv("USERPASS"),
 		DBName:         os.Getenv("DATABASE"),
 		DBHost:         os.Getenv("DBHOST"),
 		TestDBname:     os.Getenv("TESTDB"),

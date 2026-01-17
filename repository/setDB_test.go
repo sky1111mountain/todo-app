@@ -4,7 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"os"
+
+	"github.com/rainbow777/todolist/envconfig"
 )
 
 var (
@@ -27,10 +28,10 @@ func teardown() {
 }
 
 func getEnv() {
-	dbUser = os.Getenv("DB_USER")
-	dbPass = os.Getenv("DB_PASS")
-	dbHost = os.Getenv("TESTDBHOST")
-	testDBname = os.Getenv("TESTDB")
+	dbUser = envconfig.AppConfig.DBUser
+	dbPass = envconfig.AppConfig.DBPass
+	dbHost = envconfig.AppConfig.TestDBhost
+	testDBname = envconfig.AppConfig.TestDBname
 
 	if dbUser == "" || dbPass == "" || testDBname == "" {
 		log.Fatalf("missing required environment variables : dbUser, dbPass, testDBname")

@@ -1,1 +1,0 @@
-drop table if not exist todolist;
