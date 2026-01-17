@@ -46,14 +46,12 @@ jobs:
       - name: Run Tests
         env:
           # DB接続用の変数（envconfig内の名前に合わせる必要があります）
-          DB_ROOT_USER: "rainbow777"
+          DB_ROOT_USER: "root"
           DB_ROOT_PASS: "lejgihes"
           DATABASE: "tododb"
           DBHOST: "db"
           TESTDB: "test_db"
           TESTDBHOST: "127.0.0.1"
-          DB_USER: "rainbow777"
-          DB_PASS: "lejgihes"
 
           GOOGLECLIENTID: "727698954425-acn415cdngffpu2rmraf687kci1nav0s.apps.googleusercontent.com"
         run: go test -v ./controllers/... ./services/... ./repository/...
