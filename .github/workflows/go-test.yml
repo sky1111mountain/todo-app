@@ -16,8 +16,8 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: todolist
+          MYSQL_ROOT_PASSWORD: "lejgihes"
+          MYSQL_DATABASE: "test_db"
         ports:
           - 3306:3306
         # MySQLが完全に起動するまで待つための設定
@@ -46,14 +46,14 @@ jobs:
       - name: Run Tests
         env:
           # DB接続用の変数（envconfig内の名前に合わせる必要があります）
-          ROOTUSER: "rainbow777"
-          ROOTPASS: "lejgihes"
+          DB_ROOT_USER: "rainbow777"
+          DB_ROOT_PASS: "lejgihes"
           DATABASE: "tododb"
           DBHOST: "db"
           TESTDB: "test_db"
           TESTDBHOST: "127.0.0.1"
-          USERNAME: "rainbow777"
-          USERPASS: "klehorha"
+          DB_USER: "rainbow777"
+          DB_PASS: "klehorha"
 
           GOOGLECLIENTID: "727698954425-acn415cdngffpu2rmraf687kci1nav0s.apps.googleusercontent.com"
         run: go test -v ./controllers/... ./services/... ./repository/...
