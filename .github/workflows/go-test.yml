@@ -46,8 +46,8 @@ jobs:
       - name: Run Tests
         env:
           # DB接続用の変数（envconfig内の名前に合わせる必要があります）
-          USERNAME: "rainbow777"
-          USERPASS: "lejgihes"
+          ROOTUSER: "rainbow777"
+          ROOTPASS: "lejgihes"
           DATABASE: "tododb"
           DBHOST: "db"
           TESTDB: "test_db"
