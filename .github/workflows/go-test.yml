@@ -50,8 +50,8 @@ jobs:
           # DB接続用の変数（envconfig内の名前に合わせる必要があります）
           DB_USER: "rainbow777"
           DB_PASS: "klehorha"
-          DATABASE: "tododb"
-          DBHOST: "db"
+          DATABASE: "test_db"
+          DBHOST: "127.0.0.1"
           TESTDB: "test_db"
           TESTDBHOST: "127.0.0.1"
           GOOGLECLIENTID: "727698954425-acn415cdngffpu2rmraf687kci1nav0s.apps.googleusercontent.com"
