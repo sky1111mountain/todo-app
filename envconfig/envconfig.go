@@ -19,13 +19,13 @@ var AppConfig EnvConfig
 
 func LoadEnvConfig() {
 	AppConfig = EnvConfig{
-		DBUser:         os.Getenv("USERNAME"),
-		DBPass:         os.Getenv("USERPASS"),
-		DBName:         os.Getenv("DATABASE"),
-		DBHost:         os.Getenv("DBHOST"),
-		TestDBname:     os.Getenv("TESTDB"),
-		TestDBhost:     os.Getenv("TESTDBHOST"),
-		GoogleClientID: os.Getenv("GOOGLECLIENTID"),
+		DBUser:         os.Getenv("DB_USER"),
+		DBPass:         os.Getenv("DB_PASS"),
+		DBName:         os.Getenv("DB_NAME"),
+		DBHost:         os.Getenv("DB_HOST"),
+		TestDBname:     os.Getenv("TEST_DB_NAM"),
+		TestDBhost:     os.Getenv("TEST_DB_HOST"),
+		GoogleClientID: os.Getenv("GOOGLE_CLIENT_ID"),
 	}
 
 	if AppConfig.GoogleClientID == "" {

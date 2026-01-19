@@ -1,57 +1,56 @@
 services:
+  app:
+    build: . # 同じ階層にある Dockerfile を使う
+    container_name: todo-api
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=db # DBコンテナのサービス名
+      - TEST_DB_HOST=test_db
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+      - TEST_DB_NAME=${TEST_DB_NAME}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+    depends_on:
+      - db
+      - test_db
 
-    app:
-      build: . # 同じ階層にある Dockerfile を使う
-      container_name: todo-api
-      ports:
-        - "8080:8080"
-      environment:
-        - DBHOST=db # DBコンテナのサービス名
-        - TESTDBHOST=test_db
-        - USERNAME=${USERNAME}
-        - USERPASS=${USERPASS}
-        - DATABASE=${DATABASE}
-        - TESTDB=${TESTDB}
-        - GOOGLECLIENTID=${GOOGLECLIENTID}
-      depends_on:
-       - db
-       - test_db
+  # 本番用データベース
+  db:
+    image: mysql:8.0
+    container_name: todo-db
 
-    # 本番用データベース
-    db:
-        image: mysql:8.0
-        container_name: todo-db
+    environment:
+      MYSQL_ROOT_USER: ${DB_ROOT_USER}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+      TZ: "Asia/Tokyo"
+    ports:
+      - "3306:3306"
 
-        environment:
-            MYSQL_ROOT_USER: ${ROOTUSER}
-            MYSQL_ROOT_PASSWORD: ${ROOTPASS}
-            MYSQL_DATABASE: ${DATABASE}
-            MYSQL_USER: ${USERNAME}
-            MYSQL_PASSWORD: ${USERPASS}
-            TZ: 'Asia/Tokyo'
-        ports:
-          - "3306:3306"
+    volumes:
+      - db-volume:/var/lib/mysql
 
-        volumes:
-          - db-volume:/var/lib/mysql
+  # テスト用データベース
+  test_db:
+    image: mysql:8.0
+    container_name: todo-test-db
 
-    # テスト用データベース
-    test_db:
-        image: mysql:8.0
-        container_name: todo-test-db
+    environment:
+      MYSQL_ROOT_USER: ${DB_ROOT_USER}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+      MYSQL_DATABASE: ${TEST_DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+      TZ: "Asia/Tokyo"
+    ports:
+      - "3307:3306" # ポートを分けてコンテナの競合を防ぐ
 
-        environment:
-            MYSQL_ROOT_USER: ${ROOTUSER}
-            MYSQL_ROOT_PASSWORD: ${ROOTPASS}
-            MYSQL_DATABASE: ${TESTDB}
-            MYSQL_USER: ${USERNAME}
-            MYSQL_PASSWORD: ${USERPASS}
-            TZ: 'Asia/Tokyo'
-        ports:
-          - "3307:3306" # ポートを分けてコンテナの競合を防ぐ
-
-        volumes:
-          - test-db-volume:/var/lib/mysql
+    volumes:
+      - test-db-volume:/var/lib/mysql
 
 volumes:
   db-volume:
