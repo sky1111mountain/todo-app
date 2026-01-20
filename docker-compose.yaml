@@ -1,7 +1,6 @@
 services:
   app:
     build: . # 同じ階層にある Dockerfile を使う
-    container_name: todo-api
     ports:
       - "8080:8080"
     environment:
@@ -19,7 +18,6 @@ services:
   # 本番用データベース
   db:
     image: mysql:8.0
-    container_name: todo-db
 
     environment:
       MYSQL_ROOT_USER: ${DB_ROOT_USER}
@@ -37,7 +35,6 @@ services:
   # テスト用データベース
   test_db:
     image: mysql:8.0
-    container_name: todo-test-db
 
     environment:
       MYSQL_ROOT_USER: ${DB_ROOT_USER}

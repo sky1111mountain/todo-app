@@ -45,7 +45,7 @@ func getEnv() {
 	dbUser = os.Getenv("DB_USER")
 	dbPass = os.Getenv("DB_PASS")
 	dbHost = os.Getenv("TEST_DB_HOST")
-	testDBname = os.Getenv("Test_DB_NAME")
+	testDBname = os.Getenv("TEST_DB_NAME")
 
 	if dbUser == "" || dbPass == "" || testDBname == "" {
 		log.Fatalf("missing required environment variables : dbUser, dbPass, testDBname")

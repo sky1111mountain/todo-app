@@ -19,7 +19,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o todo-app .
 # --- Stage 2: 実行用 ---
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
-WORKDIR /root/
+WORKDIR /app
 
 # バイナリだけではなく、builderステージの /app（ソース一式）をまるごとコピーする
 COPY --from=builder /app/todo-app .
