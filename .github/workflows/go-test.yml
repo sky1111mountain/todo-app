@@ -52,7 +52,7 @@ jobs:
           DB_PASS: "klehorha"
           DB_NAME: "test_db"
           DB_HOST: "127.0.0.1"
-          Test_DB_NAME: "test_db"
+          TEST_DB_NAME: "test_db"
           TEST_DB_HOST: "127.0.0.1"
           GOOGLE_CLIENT_ID: "727698954425-acn415cdngffpu2rmraf687kci1nav0s.apps.googleusercontent.com"
         # 実行コマンド
