@@ -28,6 +28,7 @@ var (
 	dbHost     string
 	testDBname string
 	dbconn     string
+	dbPort     string
 	testDB     *sql.DB
 )
 
@@ -46,9 +47,13 @@ func getEnv() {
 	dbPass = os.Getenv("DB_PASS")
 	dbHost = os.Getenv("TEST_DB_HOST")
 	testDBname = os.Getenv("TEST_DB_NAME")
-
 	if dbUser == "" || dbPass == "" || testDBname == "" {
 		log.Fatalf("missing required environment variables : dbUser, dbPass, testDBname")
+	}
+
+	dbPort = os.Getenv("TEST_DB_PORT")
+	if dbPort == "" {
+		dbPort = "3306"
 	}
 }
 
@@ -56,7 +61,7 @@ func connectDB() {
 	var err error
 
 	// Dockerネットワーク内では、サービス名(dbHost)と内部ポート(3306)を使用して接続する
-	dbconn = fmt.Sprintf("%s:%s@tcp(%s:3306)/%s?parseTime=true", dbUser, dbPass, dbHost, testDBname)
+	dbconn = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", dbUser, dbPass, dbHost, dbPort, testDBname)
 	testDB, err = sql.Open("mysql", dbconn)
 	if err != nil {
 		log.Fatalf("fail to connect DB %v", err)

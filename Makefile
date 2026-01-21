@@ -16,17 +16,25 @@ down:
 	sudo docker compose down
 
 # 【本命】テスト実行
+test-local:
+	DB_USER=rainbow777 \
+	DB_PASS=klehorha \
+	TEST_DB_NAME=test_db \
+	TEST_DB_HOST=127.0.0.1 \
+	TEST_DB_PORT=3307 \
+	go test -v ./controllers/... ./services/... ./repository/...
+
 test:
-	sudo docker compose exec $(SERVICE_APP) go test -v ./...
+	go test -v ./...
 
 test-repo:
-	sudo docker compose exec $(SERVICE_APP) go test -v ./repository/...
+	go test -v ./repository/...
 
 test-svc:
-	sudo docker compose exec $(SERVICE_APP) go test -v ./services/...
+	go test -v ./services/...
 
 test-cr:
-	sudo docker compose exec $(SERVICE_APP) go test -v ./controllers/...
+	go test -v ./controllers/...
 
 # DBのログを確認
 logs:
