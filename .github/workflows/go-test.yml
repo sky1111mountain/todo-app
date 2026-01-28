@@ -16,10 +16,10 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: "lejgihes"
+          MYSQL_ROOT_PASSWORD: "jfhelha"
           MYSQL_DATABASE: "test_db"
-          MYSQL_USER: "rainbow777"
-          MYSQL_PASSWORD: "klehorha"
+          MYSQL_USER: "userA"
+          MYSQL_PASSWORD: "aaaaa"
         ports:
           - 3306:3306
         # MySQLが完全に起動するまで待つための設定
@@ -48,13 +48,11 @@ jobs:
       - name: Run Tests
         env:
           # ここで設定した変数が、実行される Go プログラムの os.Getenv() に入ります
-          DB_USER: "rainbow777"
-          DB_PASS: "klehorha"
-          DB_NAME: "test_db"
-          DB_HOST: "127.0.0.1"
+          DB_USER: "userA"
+          DB_PASS: "aaaaa"
           TEST_DB_NAME: "test_db"
           TEST_DB_HOST: "127.0.0.1"
-          GOOGLE_CLIENT_ID: "727698954425-acn415cdngffpu2rmraf687kci1nav0s.apps.googleusercontent.com"
+          TEST_DB_PORT: "3306"
         # 実行コマンド
         run: |
           printenv | grep DB_  # セットした変数が表示されるか確認

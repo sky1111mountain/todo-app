@@ -21,7 +21,7 @@ FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 WORKDIR /app
 
-# バイナリだけではなく、builderステージの /app（ソース一式）をまるごとコピーする
+# 
 COPY --from=builder /app/todo-app .
 
 # アプリがポート8080（仮）を使う場合

@@ -1,4 +1,6 @@
-.PHONY: up build down test logs db
+.PHONY: up build down test logs db testdb
+
+-include .env
 
 SERVICE_APP = app
 SERVICE_DB = db
@@ -15,17 +17,20 @@ build:
 down:
 	sudo docker compose down
 
-# 【本命】テスト実行
-test-local:
-	DB_USER=rainbow777 \
-	DB_PASS=klehorha \
-	TEST_DB_NAME=test_db \
-	TEST_DB_HOST=127.0.0.1 \
-	TEST_DB_PORT=3307 \
-	go test -v ./controllers/... ./services/... ./repository/...
+# テストDBの起動
+testdb:
+	sudo docker compose up test_db
 
+# テスト用の環境変数
+TEST_ENV = 	DB_USER=$(DB_USER) \
+			DB_PASS=$(DB_PASS) \
+			TEST_DB_NAME=$(TEST_DB_NAME) \
+			TEST_DB_HOST=$(TEST_DB_HOST) \
+			TEST_DB_PORT=$(TEST_DB_PORT)
+
+# テスト実行 「make testdb」でテストDBを起動してから実行してください
 test:
-	go test -v ./...
+	$(TEST_ENV) go test -v -count=1 ./controllers/... ./services/... ./repository/...
 
 test-repo:
 	go test -v ./repository/...
@@ -42,4 +47,4 @@ logs:
 
 # DBの中身を覗く（パスワード入力が必要）
 db:
-	sudo docker exec -it $(SERVICE_DB) mysql -u rainbow777 -p tododb
+	sudo docker exec -it $(SERVICE_DB) mysql -u $(DB_USER) -p tododb

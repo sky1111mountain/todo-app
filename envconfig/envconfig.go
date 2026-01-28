@@ -23,7 +23,7 @@ func LoadEnvConfig() {
 		DBPass:         os.Getenv("DB_PASS"),
 		DBName:         os.Getenv("DB_NAME"),
 		DBHost:         os.Getenv("DB_HOST"),
-		TestDBname:     os.Getenv("TEST_DB_NAM"),
+		TestDBname:     os.Getenv("TEST_DB_NAME"),
 		TestDBhost:     os.Getenv("TEST_DB_HOST"),
 		GoogleClientID: os.Getenv("GOOGLE_CLIENT_ID"),
 	}
