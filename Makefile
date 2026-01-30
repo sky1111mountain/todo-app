@@ -19,7 +19,7 @@ down:
 
 # テストDBの起動
 testdb:
-	sudo docker compose up test_db
+	sudo docker compose up test_db -d
 
 # テスト用の環境変数
 TEST_ENV = 	DB_USER=$(DB_USER) \
