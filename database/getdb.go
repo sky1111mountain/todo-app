@@ -8,18 +8,15 @@ import (
 )
 
 // GetDB はデータベースに接続し、*sql.DBを返す
-func GetDB(user, pass, host, dbname string) (*sql.DB, error) {
+func GetDB(dbURL string) (*sql.DB, error) {
 
 	// 環境変数が空でないことを確認するバリデーション
-	if user == "" || pass == "" || dbname == "" {
-		return nil, fmt.Errorf("missing required environment variables")
+	if dbURL == "" {
+		return nil, fmt.Errorf("missing required environment variables in database connection string")
 	}
 
-	// データベース接続文字列の生成
-	dbconn := fmt.Sprintf("%s:%s@tcp(%s:3306)/%s?parseTime=true", user, pass, host, dbname)
-
 	// データベース接続の確立
-	db, err := sql.Open("mysql", dbconn)
+	db, err := sql.Open("mysql", dbURL)
 	if err != nil {
 		return nil, fmt.Errorf("Failed to connect database:%w", err)
 	}

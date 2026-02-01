@@ -16,10 +16,7 @@ func main() {
 
 	// データベース接続
 	db, err := database.GetDB(
-		envconfig.AppConfig.DBUser,
-		envconfig.AppConfig.DBPass,
-		envconfig.AppConfig.DBHost,
-		envconfig.AppConfig.DBName,
+		envconfig.AppConfig.DATABASE_URL,
 	)
 	if err != nil {
 		log.Fatalf("Error occurred in database.GetDB: %v", err)
