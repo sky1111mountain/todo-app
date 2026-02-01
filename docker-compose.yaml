@@ -4,11 +4,8 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - DB_HOST=db # DBコンテナのサービス名
+      - DATABASE_URL=${DATABASE_URL}
       - TEST_DB_HOST=test_db
-      - DB_USER=${DB_USER}
-      - DB_PASS=${DB_PASS}
-      - DB_NAME=${DB_NAME}
       - TEST_DB_NAME=${TEST_DB_NAME}
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
     depends_on:
