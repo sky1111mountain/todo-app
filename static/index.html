@@ -1,0 +1,30 @@
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<div
+  id="g_id_onload"
+  data-client_id="727698954425-acn415cdngffpu2rmraf687kci1nav0s.apps.googleusercontent.com"
+  data-callback="handleCredentialResponse"
+></div>
+<div class="g_id_signin" data-type="standard"></div>
+
+<script>
+  function handleCredentialResponse(response) {
+    // ここで ID トークンが自動的に取得されます！
+    const idToken = response.credential;
+    console.log("取得したトークン:", idToken);
+
+    // そのままあなたの API に送信する例
+    fetch("/todo/insert", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + idToken,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        task: "フロントエンドから追加！",
+        priority: "high",
+        status: "not_done",
+      }),
+    }).then((res) => alert("送信完了！ status: " + res.status));
+  }
+</script>

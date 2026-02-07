@@ -23,6 +23,8 @@ WORKDIR /app
 
 # 
 COPY --from=builder /app/todo-app .
+# static フォルダもコピーが必要！
+COPY --from=builder /app/static ./static
 
 # アプリがポート8080（仮）を使う場合
 EXPOSE 8080

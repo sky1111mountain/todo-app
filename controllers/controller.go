@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi"
 	"github.com/rainbow777/todolist/api/middlewares"
 	"github.com/rainbow777/todolist/myerrors"
 	"github.com/rainbow777/todolist/services"
@@ -52,7 +52,7 @@ func (c MyAppController) InsertTaskHandler(w http.ResponseWriter, r *http.Reques
 // 指定したIDのタスク情報をTodoListから取得するメソッド
 func (c MyAppController) GetTaskHandler(w http.ResponseWriter, r *http.Request) {
 	// クエリパラメータからIDを取得
-	taskID, err := strconv.Atoi(mux.Vars(r)["id"])
+	taskID, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
 		err = myerrors.BadPath.Wrap(err, "invalid path parameter")
 		myerrors.ErrorHandler(w, err)
@@ -106,7 +106,7 @@ func (c MyAppController) GetListHandler(w http.ResponseWriter, r *http.Request) 
 func (c MyAppController) UpdateTaskHandler(w http.ResponseWriter, r *http.Request) {
 	var updateData structure.UpdateData
 	var err error
-	updateData.TaskID, err = strconv.Atoi(mux.Vars(r)["id"])
+	updateData.TaskID, err = strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
 		err = myerrors.BadPath.Wrap(err, "TaskID is requred in path parameter")
 		myerrors.ErrorHandler(w, err)
@@ -140,7 +140,7 @@ func (c MyAppController) UpdateTaskHandler(w http.ResponseWriter, r *http.Reques
 // TodoList内のタスクを削除するメソッド
 func (c MyAppController) DeleteTaskHandler(w http.ResponseWriter, r *http.Request) {
 
-	taskID, err := strconv.Atoi(mux.Vars(r)["id"])
+	taskID, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
 		err = myerrors.BadPath.Wrap(err, "TaskID is requred in path parameter")
 		myerrors.ErrorHandler(w, err)

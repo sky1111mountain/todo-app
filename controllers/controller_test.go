@@ -8,7 +8,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi"
 	"github.com/rainbow777/todolist/api/middlewares"
 	"github.com/rainbow777/todolist/controllers"
 	"github.com/rainbow777/todolist/controllers/testdata"
@@ -34,8 +34,9 @@ func TestInsertTaskHandler(t *testing.T) {
 			// テスト用レスポンスを生成
 			w := httptest.NewRecorder()
 
-			router := mux.NewRouter()
-			router.HandleFunc("/todo/insert", con.InsertTaskHandler).Methods(http.MethodPost)
+			router := chi.NewRouter()
+			router.Post("/todo/insert", con.InsertTaskHandler)
+
 			router.ServeHTTP(w, req)
 
 			CheckResponseInsertedData(w, t, &test)
@@ -58,9 +59,9 @@ func TestGetTaskHandler(t *testing.T) {
 
 			w := httptest.NewRecorder()
 
-			router := mux.NewRouter()
+			router := chi.NewRouter()
 			// ハンドラのテストをしたいので正規表現を削除
-			router.HandleFunc("/todo/gettask/{id}", con.GetTaskHandler).Methods(http.MethodGet)
+			router.Get("/todo/gettask/{id}", con.GetTaskHandler)
 			router.ServeHTTP(w, req)
 
 			CheckResponseTask(w, t, &test)
@@ -82,8 +83,8 @@ func TestGetListHandler(t *testing.T) {
 
 			w := httptest.NewRecorder()
 
-			router := mux.NewRouter()
-			router.HandleFunc("/todo/getlist", con.GetListHandler).Methods(http.MethodGet)
+			router := chi.NewRouter()
+			router.Get("/todo/getlist", con.GetListHandler)
 			router.ServeHTTP(w, req)
 
 			CheckResponseList(w, t, &test)
@@ -110,8 +111,8 @@ func TestUpdateTaskHandler(t *testing.T) {
 
 			w := httptest.NewRecorder()
 
-			router := mux.NewRouter()
-			router.HandleFunc("/todo/update/{id}", con.UpdateTaskHandler).Methods(http.MethodPatch)
+			router := chi.NewRouter()
+			router.Patch("/todo/update/{id}", con.UpdateTaskHandler)
 			router.ServeHTTP(w, req)
 
 			CheckResponseUpdateTask(w, t, &test)
@@ -132,8 +133,8 @@ func TestDeleteTaskHandler(t *testing.T) {
 			mockService := testdata.NewServiceMock()
 			con := controllers.NewMyAppController(mockService)
 
-			router := mux.NewRouter()
-			router.HandleFunc("/todo/delete/{id}", con.DeleteTaskHandler).Methods(http.MethodDelete)
+			router := chi.NewRouter()
+			router.Delete("/todo/delete/{id}", con.DeleteTaskHandler)
 			router.ServeHTTP(w, req)
 
 			CheckResponseDeleteHandler(w, t, &test)
