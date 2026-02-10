@@ -14,8 +14,8 @@ import (
 
 // muxルーターの生成とルーティング
 func NewRouter(db *sql.DB) *chi.Mux {
-	// 依存関係を注入（DI）レポジトリ→サービス→コントローラー層
 
+	// 依存関係を注入（DI）レポジトリ→サービス→コントローラー層
 	repository := repository.NewMyAppRepository(db)
 	service := services.NewMyAppService(repository)
 	controller := controllers.NewMyAppController(service)

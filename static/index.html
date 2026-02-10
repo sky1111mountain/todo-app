@@ -8,23 +8,59 @@
 <div class="g_id_signin" data-type="standard"></div>
 
 <script>
+  let savedIdToken = "";
+
   function handleCredentialResponse(response) {
     // ここで ID トークンが自動的に取得されます！
-    const idToken = response.credential;
-    console.log("取得したトークン:", idToken);
+    savedIdToken = response.credential;
+    console.log("Login Successful!:");
+  }
+</script>
 
-    // そのままあなたの API に送信する例
+<input type="text" id="taskInput" placeholder="Please enter a new Task" />
+
+<button onclick="addTask()">Add Task</button>
+
+<script>
+  function addTask() {
+    const inputElement = document.getElementById("taskInput");
+    const taskText = inputElement.value;
+
+    if (taskText === "") {
+      alert("Pleas enter something");
+      return;
+    }
+
+    console.log("I'll send this test now: " + taskText);
+    sendTaskToServer(taskText);
+
+    inputElement.value = "";
+  }
+
+  function sendTaskToServer(taskTitle) {
+    if (savedIdToken === "") {
+      alert("Please login to google firstly");
+      return;
+    }
+
     fetch("/todo/insert", {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + idToken,
         "Content-Type": "application/json",
+        Authorization: "Bearer " + savedIdToken,
       },
+
       body: JSON.stringify({
-        task: "フロントエンドから追加！",
+        task: taskTitle,
         priority: "high",
         status: "not_done",
       }),
-    }).then((res) => alert("送信完了！ status: " + res.status));
+    }).then((response) => {
+      if (response.ok) {
+        alert("New task registration completed");
+      } else {
+        alert("Error occurred");
+      }
+    });
   }
 </script>
