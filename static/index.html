@@ -24,10 +24,28 @@
 </script>
 
 <div id="main-app" style="display: none">
+  <div style="text-align: right">
+    <button onclick="logout()">logout</button>
+  </div>
+
   <h2>My Task Management</h2>
   <input type="text" id="taskInput" placeholder="Please enter a new Task" />
   <button onclick="addTask()">Add Task</button>
 </div>
+
+<script>
+  function logout() {
+    savedIdToken = "";
+
+    // 入力欄に残っている文字列削除
+    document.getElementById("taskInput").value = "";
+
+    document.getElementById("login-area").style.display = "block";
+    document.getElementById("main-app").style.display = "none";
+
+    console.log("Logged out successfully");
+  }
+</script>
 
 <script>
   function addTask() {
