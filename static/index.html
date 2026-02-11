@@ -1,11 +1,14 @@
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-<div
-  id="g_id_onload"
-  data-client_id="727698954425-acn415cdngffpu2rmraf687kci1nav0s.apps.googleusercontent.com"
-  data-callback="handleCredentialResponse"
-></div>
-<div class="g_id_signin" data-type="standard"></div>
+<div id="login-area">
+  <h2>Todo Management</h2>
+  <div
+    id="g_id_onload"
+    data-client_id="727698954425-acn415cdngffpu2rmraf687kci1nav0s.apps.googleusercontent.com"
+    data-callback="handleCredentialResponse"
+  ></div>
+  <div class="g_id_signin" data-type="standard"></div>
+</div>
 
 <script>
   let savedIdToken = "";
@@ -14,12 +17,17 @@
     // ここで ID トークンが自動的に取得されます！
     savedIdToken = response.credential;
     console.log("Login Successful!:");
+
+    document.getElementById("login-area").style.display = "none";
+    document.getElementById("main-app").style.display = "block";
   }
 </script>
 
-<input type="text" id="taskInput" placeholder="Please enter a new Task" />
-
-<button onclick="addTask()">Add Task</button>
+<div id="main-app" style="display: none">
+  <h2>My Task Management</h2>
+  <input type="text" id="taskInput" placeholder="Please enter a new Task" />
+  <button onclick="addTask()">Add Task</button>
+</div>
 
 <script>
   function addTask() {
