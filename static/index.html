@@ -1,5 +1,6 @@
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
+<!--ログイン画面-->
 <div id="login-area">
   <h2>Todo Management</h2>
   <div
@@ -23,6 +24,7 @@
   }
 </script>
 
+<!--アプリ操作画面-->
 <div id="main-app" style="display: none">
   <div style="text-align: right">
     <button onclick="logout()">logout</button>
@@ -31,7 +33,58 @@
   <h2>My Task Management</h2>
   <input type="text" id="taskInput" placeholder="Please enter a new Task" />
   <button onclick="addTask()">Add Task</button>
+  <button onclick="displayFilter()">Get List</button>
+
+  <!--ゲットリストの条件指定画面-->
+  <div id="filter-area" style="display: none">
+    <button onclick="getList('all')">All</button>
+    <button onclick="getList('not_done')">Not Done</button>
+    <button onclick="getList('done')">Done</button>
+  </div>
+
+  <hr />
+  <h3>Your Todolist</h3>
+  <ul id="todo-list"></ul>
 </div>
+
+<script>
+  function displayFilter() {
+    const filterArea = document.getElementById("filter-area");
+
+    if (filterArea.style.display === "none") {
+      filterArea.style.display = "block";
+    } else {
+      filterArea.style.display = "none";
+    }
+  }
+</script>
+
+<script>
+  function getList(status = "all") {
+    const url = `/todo/getlist?status=${status}`;
+
+    fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + savedIdToken,
+      },
+    })
+      .then((response) => response.json())
+      .then((todolist) => {
+        const list = document.getElementById("todo-list");
+        list.innerHTML = "";
+
+        todolist.forEach((todo) => {
+          // 新要素にtaskを作成
+          const li = document.createElement("li");
+
+          li.textContent = `${todo.task} ${todo.priority} ${todo.status}`;
+
+          list.appendChild(li);
+        });
+      });
+  }
+</script>
 
 <script>
   function logout() {
@@ -88,5 +141,7 @@
         alert("Error occurred");
       }
     });
+
+    getList();
   }
 </script>

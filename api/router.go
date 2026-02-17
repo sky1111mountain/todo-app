@@ -21,11 +21,7 @@ func NewRouter(db *sql.DB) *chi.Mux {
 	controller := controllers.NewMyAppController(service)
 
 	r := chi.NewRouter()
-
 	r.Use(middlewares.LoggingMiddleware) // ロギング
-
-	fs := http.FileServer(http.Dir("static"))
-	r.Handle("/*", fs)
 
 	r.Route("/todo", func(r chi.Router) {
 		r.Use(middlewares.AuthHandle) // このブロック内だけに認証を適用！
@@ -36,6 +32,9 @@ func NewRouter(db *sql.DB) *chi.Mux {
 		r.Patch("/update/{id:[0-9]+}", controller.UpdateTaskHandler)
 		r.Delete("/delete/{id:[0-9]+}", controller.DeleteTaskHandler)
 	})
+
+	fs := http.FileServer(http.Dir("static"))
+	r.Handle("/*", fs)
 
 	return r
 }
