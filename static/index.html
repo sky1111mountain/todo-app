@@ -42,9 +42,44 @@
     <button onclick="getList('done')">Done</button>
   </div>
 
-  <hr />
-  <h3>Your Todolist</h3>
-  <ul id="todo-list"></ul>
+  <style>
+    /* テーブル全体の横幅を100%にする */
+    #todo-table {
+      width: 75%;
+      margin-left: auto;
+      margin-right: auto;
+      border-collapse: collapse; /* 枠線を一本にまとめる */
+    }
+
+    /* 見出しとデータセルに枠線と余白をつける */
+    #todo-table th,
+    #todo-table td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+
+    /* 見出しに背景色をつけてわかりやすくする */
+    #todo-table th {
+      background-color: #eee;
+    }
+
+    #todo-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  </style>
+
+  <table id="todo-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Task</th>
+        <th>priority</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="todo-list-body"></tbody>
+  </table>
 </div>
 
 <script>
@@ -71,16 +106,21 @@
     })
       .then((response) => response.json())
       .then((todolist) => {
-        const list = document.getElementById("todo-list");
+        const list = document.getElementById("todo-list-body");
         list.innerHTML = "";
 
         todolist.forEach((todo) => {
           // 新要素にtaskを作成
-          const li = document.createElement("li");
+          const tr = document.createElement("tr");
 
-          li.textContent = `${todo.task} ${todo.priority} ${todo.status}`;
+          tr.innerHTML = `
+            <td>${todo.id}</td>
+            <td>${todo.task}</td>
+            <td>${todo.priority}</td>
+            <td>${todo.status}</td>
+          `;
 
-          list.appendChild(li);
+          list.appendChild(tr);
         });
       });
   }
