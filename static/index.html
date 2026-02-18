@@ -118,10 +118,41 @@
             <td>${todo.task}</td>
             <td>${todo.priority}</td>
             <td>${todo.status}</td>
+            <td>${
+              todo.status === "not_done"
+                ? `<button onclick="updateTaskStatus(${todo.id},'done')">完了</button>`
+                : "✅"
+            }</td>
           `;
 
           list.appendChild(tr);
         });
+      });
+  }
+
+  function updateTaskStatus(id, status) {
+    const url = `/todo/update/${id}`;
+
+    fetch(url, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + savedIdToken,
+      },
+      body: JSON.stringify({
+        status: status,
+      }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log("更新成功！");
+          getList();
+        } else {
+          alert("更新に失敗しました");
+        }
+      })
+      .catch((error) => {
+        console.error("ネットワークエラー:", error);
       });
   }
 </script>
