@@ -2,7 +2,7 @@
 
 <!--ログイン画面-->
 <div id="login-area">
-  <h2>Todo Management</h2>
+  <h2>TODOリスト</h2>
   <div
     id="g_id_onload"
     data-client_id="727698954425-acn415cdngffpu2rmraf687kci1nav0s.apps.googleusercontent.com"
@@ -21,28 +21,39 @@
 
     document.getElementById("login-area").style.display = "none";
     document.getElementById("main-app").style.display = "block";
+    getList("not_done");
   }
 </script>
 
 <!--アプリ操作画面-->
-<div id="main-app" style="display: none">
+<div id="main-app" style="display: none" class="form-container">
   <div style="text-align: right">
     <button onclick="logout()">logout</button>
   </div>
 
-  <h2>My Task Management</h2>
-  <input type="text" id="taskInput" placeholder="Please enter a new Task" />
-  <button onclick="addTask()">Add Task</button>
-  <button onclick="displayFilter()">Get List</button>
+  <div class="form-container">
+    <h2>TODOリスト</h2>
+    <input
+      type="text"
+      id="taskInput"
+      style="margin-bottom: 20px"
+      placeholder="Please enter a new Task"
+    />
+    <button onclick="addTask()" style="margin-bottom: 20px">Add Task</button>
 
-  <!--ゲットリストの条件指定画面-->
-  <div id="filter-area" style="display: none">
-    <button onclick="getList('all')">All</button>
-    <button onclick="getList('not_done')">Not Done</button>
-    <button onclick="getList('done')">Done</button>
+    <!--ゲットリストの条件指定画面-->
+    <div id="filter-area">
+      <button onclick="getList('all')">All</button>
+      <button onclick="getList('not_done')">Not Done</button>
+      <button onclick="getList('done')">Done</button>
+    </div>
   </div>
 
   <style>
+    .form-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
     /* テーブル全体の横幅を100%にする */
     #todo-table {
       width: 75%;
@@ -72,27 +83,15 @@
   <table id="todo-table">
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Task</th>
-        <th>priority</th>
-        <th>Status</th>
+        <th>タスク</th>
+        <th>優先度</th>
+        <th>状態</th>
+        <th>操作</th>
       </tr>
     </thead>
     <tbody id="todo-list-body"></tbody>
   </table>
 </div>
-
-<script>
-  function displayFilter() {
-    const filterArea = document.getElementById("filter-area");
-
-    if (filterArea.style.display === "none") {
-      filterArea.style.display = "block";
-    } else {
-      filterArea.style.display = "none";
-    }
-  }
-</script>
 
 <script>
   function getList(status = "all") {
@@ -114,7 +113,6 @@
           const tr = document.createElement("tr");
 
           tr.innerHTML = `
-            <td>${todo.id}</td>
             <td>${todo.task}</td>
             <td>${todo.priority}</td>
             <td>${todo.status}</td>
