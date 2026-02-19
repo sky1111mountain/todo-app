@@ -21,7 +21,13 @@
 
     document.getElementById("login-area").style.display = "none";
     document.getElementById("main-app").style.display = "block";
-    getList("not_done");
+    getList();
+  }
+</script>
+
+<script>
+  function priorityFilter() {
+    document.getElementById("priority-button").style.display = "block";
   }
 </script>
 
@@ -39,7 +45,15 @@
       style="margin-bottom: 20px"
       placeholder="Please enter a new Task"
     />
-    <button onclick="addTask()" style="margin-bottom: 20px">Add Task</button>
+    <button onclick="priorityFilter()" style="margin-bottom: 20px">
+      Task追加
+    </button>
+
+    <div id="priority-button" style="display: none" class="form-container">
+      <button onclick="addTask('high')">高</button>
+      <button onclick="addTask('medium')">中</button>
+      <button onclick="addTask('low')">低</button>
+    </div>
 
     <!--ゲットリストの条件指定画面-->
     <div id="filter-area">
@@ -94,7 +108,7 @@
 </div>
 
 <script>
-  function getList(status = "all") {
+  function getList(status = "not_done") {
     const url = `/todo/getlist?status=${status}`;
 
     fetch(url, {
@@ -169,8 +183,12 @@
   }
 </script>
 
+<!--タスク追加系-->
 <script>
-  function addTask() {
+  function addTask(status) {
+    // addTask実行後priority選択ボタンを非表示にする
+    document.getElementById("priority-button").style.display = "none";
+
     const inputElement = document.getElementById("taskInput");
     const taskText = inputElement.value;
 
@@ -180,12 +198,12 @@
     }
 
     console.log("I'll send this test now: " + taskText);
-    sendTaskToServer(taskText);
+    sendTaskToServer(taskText, status);
 
     inputElement.value = "";
   }
 
-  function sendTaskToServer(taskTitle) {
+  function sendTaskToServer(task, status) {
     if (savedIdToken === "") {
       alert("Please login to google firstly");
       return;
@@ -199,18 +217,17 @@
       },
 
       body: JSON.stringify({
-        task: taskTitle,
-        priority: "high",
+        task: task,
+        priority: status,
         status: "not_done",
       }),
     }).then((response) => {
       if (response.ok) {
         alert("New task registration completed");
+        getList();
       } else {
         alert("Error occurred");
       }
     });
-
-    getList();
   }
 </script>
